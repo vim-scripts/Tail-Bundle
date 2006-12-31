@@ -31,8 +31,8 @@ finish " 1}}}
 " }}}1
 
 " Section: Vimball options {{{1
-:set expandtab fileformat=unix encoding=utf-8
-:.+2,.+5 MkVimball ada-2.0.0
+:set noexpandtab fileformat=unix encoding=utf-8
+:.+2,.+5 MkVimball tail-2.1.vba
 
 tail_options.vim
 plugin/tail.vim
@@ -46,7 +46,6 @@ doc/tail.txt
 
 tar --create --bzip2		 \
    --file="tail-2.0.0.tar.bz2"	 \
-   tail_options.vim		 \
    plugin/tail.vim		 \
    autoload/tail.vim		 \
    doc/tail.txt			 ;

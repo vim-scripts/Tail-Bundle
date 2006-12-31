@@ -1,18 +1,19 @@
 "------------------------------------------------------------------------------
 "  Description: Works like "tail -f" .
-"	   $Id: tail.vim 462 2006-11-19 09:51:04Z krischik $
+"	   $Id: tail.vim 467 2006-11-23 19:22:39Z krischik $
 "   Maintainer: Martin Krischik
 "		Jason Heddings (vim at heddway dot com)
 "      $Author: krischik $
-"	 $Date: 2006-11-19 10:51:04 +0100 (So, 19 Nov 2006) $
-"      Version: 2.0
-"    $Revision: 462 $
+"	 $Date: 2006-11-23 20:22:39 +0100 (Do, 23 Nov 2006) $
+"      Version: 2.1
+"    $Revision: 467 $
 "     $HeadURL: https://svn.sourceforge.net/svnroot/gnuada/trunk/tools/vim/autoload/tail.vim $
 "      History: 22.09.2006 MK Improve for vim 7.0
 "		15.10.2006 MK Bram's suggestion for runtime integration
 "		05.11.2006 MK Bram suggested not to use include protection for
 "			      autoload
 "		07.11.2006 MK Tabbed Tail
+"               31.12.2006 MK Bug fixing
 "    Help Page: tail.txt
 "------------------------------------------------------------------------------
 
@@ -50,6 +51,9 @@ else
 	 endif
 	 " set it up to be watched closely
 
+	 " set up the new window with minimal functionality
+	 silent execute a:type . " " . l:file
+
 	 augroup Tail
 	    " monitor calls -- try to catch the update as much as possible
 	    autocmd CursorHold	* :call tail#Monitor()
@@ -63,9 +67,6 @@ else
 	    execute 'autocmd BufWinLeave '	. l:file . " :call tail#Stop()"
 	    execute 'autocmd FileChangedShell ' . l:file . " :call tail#Refresh()"
 	 augroup END
-
-	 " set up the new window with minimal functionality
-	 silent execute a:type . " " . l:file
       endif
 
       return
@@ -75,7 +76,11 @@ else
    " watch the specified file for changes in different split window
    "
    function tail#Open_Split (file)					" {{{1
-      call tail#Open (g:tail#Height . 'new', file)
+      "if has ('win32') || has ('win64')
+	 "call tail#Open ('pedit', a:file)
+      "else
+	 call tail#Open (g:tail#Height . 'new', a:file)
+      "endif
 
       return
    endfunction tail#Open_Spluit						" }}}1
@@ -84,7 +89,6 @@ else
    " watch the specified file for changes in different tabs
    "
    function tail#Open_Tabs (...)					" {{{1
-            
       for l:i in a:000
 	 call tail#Open ('tabnew', l:i)
       endfor
@@ -97,13 +101,13 @@ else
    "
    function tail#Monitor ()						" {{{1
       " do our file change checks
-      if has ('win32') || has ('win64')
-	 " checktime won't work all that well with windows
-	 pedit!
-      else
+      "if has ('win32') || has ('win64')
+	 "" checktime won't work all that well with windows
+	 "pedit!
+      "else
 	 " the easy check
 	 checktime   " the easy check
-      endif
+      "endif
 
       call tail#Status ()
    endfunction								" }}}1
@@ -126,7 +130,6 @@ else
       return s:Status_Char
    endfunction								" }}}1
 
-
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " used by Tail to set up the preview window settings
    "
@@ -139,7 +142,10 @@ else
       setlocal noshowcmd
       setlocal noswapfile
       setlocal nowrap
-      setlocal previewwindow
+
+      if ! &l:previewwindow
+	 setlocal previewwindow
+      endif
 
       nnoremap <buffer> i :setlocal wrap<CR>
       nnoremap <buffer> I :setlocal nowrap<CR>
