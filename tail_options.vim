@@ -5,13 +5,14 @@
 "   Maintainer:	Martin Krischik
 "      $Author: krischik $
 "	 $Date: 2006-11-18 10:42:10 +0100 (Sa, 18 Nov 2006) $
-"      Version: 2.0
+"      Version: 2.2
 "    $Revision: 458 $
 "     $HeadURL: https://svn.sourceforge.net/svnroot/gnuada/trunk/tools/vim/tail_options.vim $
 "      History:	17.11.2006 MK Tail_Options
+"               01.01.2007 MK Bug fixing
 "	 Usage: copy content into your .vimrc and change options to your
 "		likeing.
-"    Help Page: ft-ada-options
+"    Help Page: tail.txt
 "------------------------------------------------------------------------------
 
 echoerr 'It is suggested to copy the content of ada_options into .vimrc!'
@@ -32,7 +33,7 @@ finish " 1}}}
 
 " Section: Vimball options {{{1
 :set noexpandtab fileformat=unix encoding=utf-8
-:.+2,.+5 MkVimball tail-2.1.vba
+:.+2,.+5 MkVimball tail-2.2.vba
 
 tail_options.vim
 plugin/tail.vim

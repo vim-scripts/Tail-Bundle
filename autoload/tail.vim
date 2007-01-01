@@ -5,7 +5,7 @@
 "		Jason Heddings (vim at heddway dot com)
 "      $Author: krischik $
 "	 $Date: 2006-11-23 20:22:39 +0100 (Do, 23 Nov 2006) $
-"      Version: 2.1
+"      Version: 2.2
 "    $Revision: 467 $
 "     $HeadURL: https://svn.sourceforge.net/svnroot/gnuada/trunk/tools/vim/autoload/tail.vim $
 "      History: 22.09.2006 MK Improve for vim 7.0
@@ -14,6 +14,7 @@
 "			      autoload
 "		07.11.2006 MK Tabbed Tail
 "               31.12.2006 MK Bug fixing
+"               01.01.2007 MK Bug fixing
 "    Help Page: tail.txt
 "------------------------------------------------------------------------------
 
@@ -51,9 +52,6 @@ else
 	 endif
 	 " set it up to be watched closely
 
-	 " set up the new window with minimal functionality
-	 silent execute a:type . " " . l:file
-
 	 augroup Tail
 	    " monitor calls -- try to catch the update as much as possible
 	    autocmd CursorHold	* :call tail#Monitor()
@@ -67,6 +65,9 @@ else
 	    execute 'autocmd BufWinLeave '	. l:file . " :call tail#Stop()"
 	    execute 'autocmd FileChangedShell ' . l:file . " :call tail#Refresh()"
 	 augroup END
+
+	 " set up the new window with minimal functionality
+	 silent execute a:type . " " . l:file
       endif
 
       return
@@ -142,10 +143,7 @@ else
       setlocal noshowcmd
       setlocal noswapfile
       setlocal nowrap
-
-      if ! &l:previewwindow
-	 setlocal previewwindow
-      endif
+      setlocal previewwindow
 
       nnoremap <buffer> i :setlocal wrap<CR>
       nnoremap <buffer> I :setlocal nowrap<CR>

@@ -5,7 +5,7 @@
 "               Jason Heddings (vim at heddway dot com)
 "      $Author: krischik $
 "        $Date: 2006-11-23 20:22:39 +0100 (Do, 23 Nov 2006) $
-"      Version: 2.1
+"      Version: 2.2
 "    $Revision: 467 $
 "     $HeadURL: https://svn.sourceforge.net/svnroot/gnuada/trunk/tools/vim/plugin/tail.vim $
 "      History: 22.09.2006 MK Improve for vim 7.0
@@ -13,6 +13,7 @@
 "		05.11.2006 MK Bram suggested to save on spaces
 "               07.11.2006 MK Tabbed Tail
 "               31.12.2006 MK Bug fixing
+"               01.01.2007 MK Bug fixing
 "    Help Page: tail.txt
 "------------------------------------------------------------------------------
 
@@ -20,7 +21,7 @@ if exists('g:Tail_Loaded') || version < 700
    finish
 endif
 
-let g:Tail_Loaded = 21
+let g:Tail_Loaded = 22
 
 " command exports
 command -nargs=1 -complete=file Tail    call tail#Open_Split   (<q-args>)
