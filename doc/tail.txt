@@ -1,9 +1,9 @@
 *Tail.txt*	   Watch the contents of a file in real time
 
 Author: Jason Heddings (jason@heddings.com)
-	Martin Krischik
+	Martin Krischik (krischik@users.sourceforge.net)
 For Vim version 7.0 and above
-Last change: 22 September, 2006
+Last change: 17 September, 2007
 
 1. Overview                                     |tail-about|
 2. Commands                                     |tail-commands|
@@ -47,10 +47,16 @@ following commands:
 
 								    *:TabTail*
 :TabTail  <filenames>
-        Begin watching the specified files tabed preview windows.
+        Begin watching the specified files in tabed preview windows.
 
 Once open, the window accepts all preview window commands.  For example, to
 close the preview window, use |:pclose|.
+
+							       *:vim-tail.zsh*
+
+You can also open one or more files for (tabbed) tailing using |vim-tail.zsh|
+which is provided in the macros directory. |vim-tail.zsh| will use a single
+gvim server and |:TabTail| to open the files.
 
 ==============================================================================
 							       *tail-mappings*

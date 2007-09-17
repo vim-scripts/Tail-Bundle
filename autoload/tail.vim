@@ -1,13 +1,13 @@
 "------------------------------------------------------------------------------
 "  Description: Works like "tail -f" .
-"	   $Id: tail.vim 467 2006-11-23 19:22:39Z krischik $
-"   Maintainer: Martin Krischik
+"	   $Id: tail.vim 773 2007-09-17 08:58:57Z krischik $
+"   Maintainer: Martin Krischik (krischik@users.sourceforge.net)
 "		Jason Heddings (vim at heddway dot com)
 "      $Author: krischik $
-"	 $Date: 2006-11-23 20:22:39 +0100 (Do, 23 Nov 2006) $
-"      Version: 2.2
-"    $Revision: 467 $
-"     $HeadURL: https://svn.sourceforge.net/svnroot/gnuada/trunk/tools/vim/autoload/tail.vim $
+"	 $Date: 2007-09-17 10:58:57 +0200 (Mo, 17 Sep 2007) $
+"      Version: 3.0
+"    $Revision: 773 $
+"     $HeadURL: https://gnuada.svn.sourceforge.net/svnroot/gnuada/trunk/tools/vim/autoload/tail.vim $
 "      History: 22.09.2006 MK Improve for vim 7.0
 "		15.10.2006 MK Bram's suggestion for runtime integration
 "		05.11.2006 MK Bram suggested not to use include protection for
