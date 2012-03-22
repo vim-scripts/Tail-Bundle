@@ -174,8 +174,8 @@ else
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " used by Tail to set up the preview window settings
    "
-   " @todo ask for referring file, so we can use filetype to highlight syntax of logfile
    function! tail#Setup ()						" {{{1
+      setlocal autoread
       setlocal noreadonly " in case the "view" mode is used
       setlocal buftype=nofile
       setlocal bufhidden=hide
@@ -205,7 +205,6 @@ else
 
       nnoremap <buffer> c :close<CR>
 
-      nnoremap <buffer> b wincmd p<CR>
       nnoremap <buffer> <backspace> wincmd p<CR>
 
       nnoremap <buffer> i :setlocal wrap<CR>
