@@ -84,7 +84,7 @@ else
       "endif
 
       return
-   endfunction tail#Open_Spluit						" }}}1
+   endfunction tail#Open_Split						" }}}1
 
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " watch the specified file for changes in different tabs
