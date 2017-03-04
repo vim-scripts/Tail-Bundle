@@ -3,6 +3,7 @@
 "	   $Id: tail.vim 773 2007-09-17 08:58:57Z krischik $
 "   Maintainer: Martin Krischik (krischik@users.sourceforge.net)
 "		Jason Heddings (vim at heddway dot com)
+"		Tony Narlock (tony at git-pull dot com)
 "      $Author: krischik $
 "	 $Date: 2007-09-17 10:58:57 +0200 (Mo, 17 Sep 2007) $
 "      Version: 3.0
@@ -15,6 +16,9 @@
 "		07.11.2006 MK Tabbed Tail
 "               31.12.2006 MK Bug fixing
 "               01.01.2007 MK Bug fixing
+"               22.03.2012 File argument optional on tail#Open_Split() and
+"			      tail#Open_Tabs(), file dialog box opens. Support
+"			      for closing log split pane tail#Close_Last()
 "    Help Page: tail.txt
 "------------------------------------------------------------------------------
 
@@ -35,7 +39,7 @@ else
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " sets up the preview window to watch the specified file for changes
    "
-   function tail#Open (type, file)					" {{{1
+   function! tail#Open (type, file)					" {{{1
       let l:file = substitute(expand(a:file), "\\", "/", "g")
 
       if !filereadable(l:file)
@@ -70,29 +74,65 @@ else
 	 silent execute a:type . " " . l:file
       endif
 
+      wincmd p
+
       return
+   endfunction								" }}}1
+
+
+   function! tail#File_Dialog ()					" {{{1
+      let curline = getline('.')
+      call inputsave()
+      let file = input('File: ', "", "file")
+      call inputrestore()
+      return file
+   endfunction
+									" }}}1
+
+   function! tail#Close_Last ()						" {{{1
+	if bufexists (bufnr (s:last_file))
+	    execute ':' . bufnr(s:last_file) . 'bwipeout'
+	endif
+	return
    endfunction								" }}}1
 
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " watch the specified file for changes in different split window
    "
-   function tail#Open_Split (file)					" {{{1
+   function! tail#Open_Split (...)					" {{{1
+      if !exists("a:1")
+	 let file = tail#File_Dialog()
+      else
+	 let file = a:1
+      endif
+
+      if exists("s:last_file") && bufexists (bufnr (s:last_file))
+	   execute ':' . bufnr(s:last_file) . 'bwipeout'
+      endif
+
+      let s:last_file = substitute(expand(file), "\\", "/", "g")
+      " log last file
+
       "if has ('win32') || has ('win64')
-	 "call tail#Open ('pedit', a:file)
+	 "call tail#Open ('pedit', file)
       "else
-	 call tail#Open (g:tail#Height . 'new', a:file)
+	 call tail#Open (g:tail#Height . 'new', file)
       "endif
 
       return
-   endfunction tail#Open_Spluit						" }}}1
+   endfunction tail#Open_Split						" }}}1
 
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " watch the specified file for changes in different tabs
    "
-   function tail#Open_Tabs (...)					" {{{1
-      for l:i in a:000
-	 call tail#Open ('tabnew', l:i)
-      endfor
+   function! tail#Open_Tabs (...)					" {{{1
+      if !exists("a:1")
+	 call tail#Open ('tabnew', tail#File_Dialog())
+      else
+	 for l:i in a:000
+	    call tail#Open ('tabnew', l:i)
+	 endfor
+      endif
 
       return
    endfunction tail#Open_Tabs						" }}}1
@@ -100,7 +140,7 @@ else
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " used by Tail to check the file status
    "
-   function tail#Monitor ()						" {{{1
+   function! tail#Monitor ()						" {{{1
       " do our file change checks
       "if has ('win32') || has ('win64')
 	 "" checktime won't work all that well with windows
@@ -116,7 +156,7 @@ else
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " used by Tail to check the file status
    "
-   function tail#Status ()						" {{{1
+   function! tail#Status ()						" {{{1
       " update the status indicator
       if s:Status_Char == "|"
 	 let s:Status_Char = "/"
@@ -134,16 +174,38 @@ else
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " used by Tail to set up the preview window settings
    "
-   function tail#Setup ()						" {{{1
+   function! tail#Setup ()						" {{{1
       setlocal autoread
-      setlocal bufhidden=delete
+      setlocal noreadonly " in case the "view" mode is used
+      setlocal buftype=nofile
+      setlocal bufhidden=hide
+      setlocal noswapfile
       setlocal nobuflisted
       setlocal nomodifiable
+      setlocal filetype=syslog
+      setlocal nolist
       setlocal nonumber
-      setlocal noshowcmd
-      setlocal noswapfile
       setlocal nowrap
-      setlocal previewwindow
+      setlocal winfixwidth
+      setlocal textwidth=0
+      setlocal nocursorline
+      setlocal nocursorcolumn
+
+      if exists('+relativenumber')
+	   setlocal norelativenumber
+      endif
+
+      setlocal nofoldenable
+      setlocal foldcolumn=0
+      " Reset fold settings in case a plugin set them globally to something
+      " expensive. Apparently 'foldexpr' gets executed even if 'foldenable' is
+      " off, and then for every appended line (like with :put).
+      setlocal foldmethod&
+      setlocal foldexpr&
+
+      nnoremap <buffer> c :close<CR>
+
+      nnoremap <buffer> <backspace> wincmd p<CR>
 
       nnoremap <buffer> i :setlocal wrap<CR>
       nnoremap <buffer> I :setlocal nowrap<CR>
@@ -164,7 +226,7 @@ else
    " used by Tail to refresh the window contents & position
    " use this instead of autoread for silent reloading and better control
    "
-   function tail#Refresh()						" {{{1
+   function! tail#Refresh()						" {{{1
       if &previewwindow
 	 " if the cursor is on the last line, we'll move it with the update
 
@@ -209,7 +271,7 @@ else
    " used by Tail to set the cursor position in the preview window
    " assumes that the correct window has already been selected
    "
-   function tail#SetCursor()						" {{{1
+   function! tail#SetCursor()						" {{{1
       normal G
       if g:tail#Center_Win
 	 normal zz
@@ -219,7 +281,7 @@ else
    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
    " used by Tail to stop watching the file and clean up
    "
-   function tail#Stop()							" {{{1
+   function! tail#Stop()						" {{{1
       autocmd! Tail
       augroup! Tail
    endfunction								" }}}1
