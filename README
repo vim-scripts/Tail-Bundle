@@ -1,11 +1,10 @@
-This is a mirror of http://www.vim.org/scripts/script.php?script_id=1714
+This is the origian for of http://www.vim.org/scripts/script.php?script_id=1714
 
 This Tail plug-in combines the ideas from vimscript#1374 and vimscript#1692 into one plugin offereing both preview and tabed tail functionality. I also added shortcut mapping to "set wrap" and "set number" - which both can be useful when observing log files.
 
 Last not least I use the new Vim 7.0 autoload feature so this script should load faster and use less memory then there vimscript#1374 and vimscript#1692.
 
-All in all: The best tail plugin you can get. If you still have ideas to improve visit our Google-Code page: http://code.google.com/p/vim-scripts/wiki/TailBundle
+All in all: The best tail plugin you can get. If you still have ideas to improve visit our Google-Code page: https://github.com/krischik/Tail-Bundle
 
-Reports errors to: http://code.google.com/p/vim-scripts/issues/list
-Discuss improvements on: http://groups.google.com/group/vim_scripts
-
+Reports errors to: https://github.com/krischik/Tail-Bundle/discussions
+Discuss improvements on: https://github.com/krischik/Tail-Bundle/discussions
