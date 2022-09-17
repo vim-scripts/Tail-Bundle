@@ -2,8 +2,9 @@
 
 Author: Jason Heddings (jason@heddings.com)
 	Martin Krischik (krischik@users.sourceforge.net)
+
 For Vim version 7.0 and above
-Last change: 17 September, 2007
+Last change: 17 September, 2022
 
 1. Overview                                     |tail-about|
 2. Commands                                     |tail-commands|

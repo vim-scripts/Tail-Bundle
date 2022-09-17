@@ -2,8 +2,8 @@
 "  Description: Works like "tail -f" .
 "   Maintainer: Martin Krischik (krischik@users.sourceforge.net)
 "		Jason Heddings (vim at heddway dot com)
-"      $Author: krischik $
-"      Version: 3.0
+"    Copyright: (C) 2006 … 2022 Martin Krischik
+"      Version: 3.1
 "      History: 22.09.2006 MK Improve for vim 7.0
 "		15.10.2006 MK Bram's suggestion for runtime integration
 "		05.11.2006 MK Bram suggested not to use include protection for
