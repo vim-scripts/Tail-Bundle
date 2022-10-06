@@ -10,12 +10,10 @@ This Tail plug-in combines the ideas from vimscript#1374 and vimscript#1692 into
 
 Install from https://github.com/krischik/vim-tail using dein (https://github.com/Shougo/dein.vim) or similar:
 
-{{code|lang=vim|
-call dein#begin('$HOME/vimfiles/bundles')
-call dein#add('krischik/vim-tail')
-call dein#end()
-call dein#install()
-}}
+    call dein#begin('$HOME/vimfiles/bundles')
+    call dein#add('krischik/vim-tail')
+    call dein#end()
+    call dein#install()
 
 == References ==
 
