@@ -1,0 +1,40 @@
+= Tail Bundle =
+
+This is a maintained mirror of http://www.vim.org/scripts/script.php?script_id=1714
+
+== Description ==
+
+This Tail plug-in combines the ideas from vimscript#1374 and vimscript#1692 into one plugin offering both preview and tabbed tail functionality. I also added shortcut mapping to "set wrap" and "set number" - which both can be useful when observing log files.
+
+== Installation ==
+
+Install from https://github.com/krischik/vim-tail using dein (https://github.com/Shougo/dein.vim) or similar:
+
+    call dein#begin('$HOME/vimfiles/bundles')
+    call dein#add('krischik/vim-tail')
+    call dein#end()
+    call dein#install()
+
+== References ==
+
+{|
+|+ Tail Bundle
+|-
+| Vim-Script	|| https://www.vim.org/scripts/script.php?script_id=1714
+|-
+| Source	|| https://github.com/krischik/vim-tail
+|-
+| Wiki		|| https://github.com/krischik/vim-tail/wiki
+|-
+| Releases	|| https://github.com/krischik/vim-tail/releases
+|-
+| Issues	|| https://github.com/krischik/vim-tail/issues
+|-
+| Discussions	|| https://github.com/krischik/vim-tail/discussions
+|}
+
+==Comments==
+
+/* vim: set textwidth=0 wrap tabstop=8 shiftwidth=4 softtabstop=4 noexpandtab : */
+/* vim: set filetype=mediawiki fileencoding=utf8 fileformat=unix foldmethod=marker : */
+/* vim: set nospell spelllang=en_gb : */
